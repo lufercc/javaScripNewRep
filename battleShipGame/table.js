@@ -1,50 +1,40 @@
 /**
  * Created by LUFER on 06/07/2015.
  */
-var Table = function(size,quantity){
-    this.size = size;
-    this.ships = [];
-    this.tables = [];
-    this.grid = [[]];
-    this.quantity = quantity;
-    this.initGrid();
-    this.initShips();
-};
 
 
-Table.prototype.initGrid = function(size)
+var Table = function(size, shipArray)
 {
-    var EMPTY_CELL = 'o';
+    this.size = size;
 
-    for(var i = 0; i < size; i++)
-    {
-        this.grid[i] = new Array();
-        //
-        for(var j = 0; j < size; j++)
-        {
-            this.grid[i][j] = EMPTY_CELL;
-        }
+    this.grid = [];
+    this.createGrid(size);
 
-    }
+    this.ships = [];
+    this.createShips();
+
+    this.score = 0;
 };
+// quantity by default of ships is 3
+Table.prototype.createShips = function()
+{
 
-Table.prototype.initShips = function(){
-    for(var t=1;t<=4;t++)
+    for(var z = 1; z <= 3; z++)
     {
-        var shipID = t.toString();
+        var shipId = z;
         var shipSize = this.getShipRandomSize();
-        var ShipPos = this.getShipRandomPos(shipSize); //returns new Axis(4,0);
-        var ship = new Ship(shipSize,ShipPos);
-
+        var shipInitPos = this.getShipRandomPos(shipSize);
+        var ship = new Ship(shipId, shipSize);
         this.ships.push(ship);
 
-        var i = ShipPos.getRow();
-        for(var j=ShipPos.getColumn();j<shipSize+ShipPos.getColumn();j++)
+        for(var j = shipInitPos.getColumn(); j < shipInitPos.getColumn() + shipSize; j++)
         {
-            this.grid[i][j] = shipID;
+            this.grid[j][shipInitPos.getRow()] = shipId;
         }
     }
+
 };
+
 
 Table.prototype.getShipRandomPos = function(shipSize)
 {
@@ -74,6 +64,25 @@ Table.prototype.getShipRandomPos = function(shipSize)
 };
 
 
-Table.prototype.getShipRandomSize = function(){
-    return parseInt(Math.random() *3)+1;
+Table.prototype.getShipRandomSize = function()
+{
+    return parseInt(Math.random() * 3) + 1;
 };
+
+
+Table.prototype.createGrid = function(size)
+{
+    var EMPTY_CELL = 'o';
+
+    for(var i = 0; i < size; i++)
+    {
+        this.grid[i] = new Array();
+        //
+        for(var j = 0; j < size; j++)
+        {
+            this.grid[i][j] = EMPTY_CELL;
+        }
+
+    }
+};
+

@@ -17,7 +17,7 @@ BattleShipGame.prototype.init = function()
 {
     for( var i = 1; i <= this.numPlayers ; i++ )
     {
-        var playerName = 'Player '+i;
+        var playerName = 'Player'+i;
         var playerTable = new Table(this.tableSize , this.numPlayers);
         var play = new Player( playerName , playerTable );
 
@@ -29,31 +29,33 @@ BattleShipGame.prototype.startGame = function()
 {
 
     this.printTable();
-    var row = window.prompt('insert row');
-    var column = window.prompt('insert column');
+    var row = window.prompt('insert hit row');
+    var column = window.prompt('insert hit column');
     this.Shot(row,column);
 
 };
-
+// this method print new table
 BattleShipGame.prototype.printTable = function(){
 
     console.log('Table\n' + this.players[0].table.grid.join('\n'));
 };
-
+// this game is for one player
 BattleShipGame.prototype.Shot = function(row,column){
     var rows = row-1;
     var cols = column-1;
-    if(this.players[0].table.grid[rows][cols]!= 'o' || this.players[0].table.grid[rows][cols]!='X')
+
+    // if shot is fail the game is finish
+    if(this.players[0].table.grid[rows][cols]!= 'o')
     {
-        alert('HIT');
+        alert('hit to ship');
         this.players[0].table.grid[rows][cols]='X';
         console.log('Table\n' + this.players[0].table.grid.join('\n'));
-        var row = window.prompt('ROW?');
-        var column = window.prompt('Column?');
+        var row = window.prompt('insert hit row');
+        var column = window.prompt('inser hit column');
         this.Shot(row,column);
     }
     else
     {
-        alert('Fail');
+        alert('your shot is failed');
     }
 };
